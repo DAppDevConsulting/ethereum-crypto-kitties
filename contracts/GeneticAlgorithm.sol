@@ -27,7 +27,7 @@ contract GeneticAlgorithm {
     function _getGene(string _genes, uint _geneIndex) internal returns (bytes _gene) {
         _gene = "00";
         for (uint i = 0; i < geneLength; i++) {
-            _gene[i] = bytes(_genes)[_geneIndex + i];
+            _gene[i] = bytes(_genes)[_geneIndex * 2 + i];
         }
 
     }

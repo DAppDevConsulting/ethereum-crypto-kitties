@@ -5,13 +5,9 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "./GeneticAlgorithm.sol";
 
 contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
-  string public name = "CryptoKittiesToken";
-  string public symbol = "CKT";
-
   struct Kitty {
     string genes;   // 9 properties, each can take up to 20 values. Length of genes is 18
     string name;
-    uint8 generation;
   }
 
   struct Lot {
@@ -33,7 +29,7 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
    * Creates a lot associated by _kittyId
    */
   function createLot(uint _kittyId, uint _price) public {
-    addTokenTo(address(this), _kittyId);  // kittyId == tokenId
+    transferFrom(msg.sender, this, _kittyId);  // kittyId == tokenId
 
     Lot memory _lot = Lot({
       owner: msg.sender,
@@ -91,7 +87,7 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
   }
 
   function _createKitty(string _genes, string _name) internal {
-    Kitty memory _kitty = Kitty({genes: _genes, name: _name, generation: 0});
+    Kitty memory _kitty = Kitty({genes: _genes, name: _name});
 
     uint _kittyId = kitties.push(_kitty) - 1;
 

@@ -6,7 +6,7 @@ import "./GeneticAlgorithm.sol";
 
 contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
   struct Kitty {
-    string genes;   // 9 properties, each can take up to 20 values. Length of genes is 18
+    uint genes;
     string name;
   }
 
@@ -73,7 +73,7 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
     Kitty memory _sire = kitties[_sireId];
     Kitty memory _matron = kitties[_matronId];
 
-    string memory _genes = mixGenes(_sire.genes, _matron.genes);
+    uint _genes = mixGenes(_sire.genes, _matron.genes);
 
     _createKitty(_genes, "New Kitten");
   }
@@ -82,11 +82,11 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
    * Creating a new Kitti (Token) with specified params.
    * Only owner of the contract is allowed.
    */
-  function mint(string _genes, string _name) public onlyOwner {
+  function mint(uint _genes, string _name) public onlyOwner {
     _createKitty(_genes, _name);
   }
 
-  function _createKitty(string _genes, string _name) internal {
+  function _createKitty(uint _genes, string _name) internal {
     Kitty memory _kitty = Kitty({genes: _genes, name: _name});
 
     uint _kittyId = kitties.push(_kitty) - 1;

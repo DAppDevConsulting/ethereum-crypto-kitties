@@ -2,12 +2,11 @@ pragma solidity ^0.4.18;
 
 contract GeneticAlgorithm {
     uint8 public genesCount = 9;
-    uint8 public geneLength = 2;
 
-    function mixGenes(string _sireGenes, string _matronGenes) public returns (string) {
-        uint _genesToMixCount = uint(block.blockhash(block.number - 1)) % (genesCount + 1) + 3;
+    function mixGenes(uint _sireGenes, uint _matronGenes) public returns (uint) {
+        uint _genesToMixCount = uint(block.blockhash(block.number - 1)) % (genesCount - 3) + 3;
         uint8 _mixedGenesCount;
-        string memory _kittenGenes = _matronGenes;
+        uint _kittenGenes = _matronGenes;
 
         bytes32 _randomHash = keccak256(block.blockhash(block.number - 1));
 
@@ -24,20 +23,20 @@ contract GeneticAlgorithm {
         return _kittenGenes;
     }
 
-    function _getGene(string _genes, uint _geneIndex) internal returns (bytes _gene) {
-        _gene = "00";
-        for (uint i = 0; i < geneLength; i++) {
-            _gene[i] = bytes(_genes)[_geneIndex * 2 + i];
-        }
+    function _getGene(uint _genes, uint _geneIndex) internal returns (uint) {
+        uint multi = genesCount - _geneIndex;
+        uint rest = (_genes % (10 ** multi)) / 10 ** (multi - 1);
 
+        return rest * (10 ** (multi - 1));
     }
 
 
-    function _setGene(string _genes, bytes _gene, uint _geneIndex) internal returns (string) {
-        for (uint i = 0; i < geneLength; i++) {
-            bytes(_genes)[_geneIndex * 2 + i] = _gene[i];
-        }
+    function _setGene(uint _genes, uint _gene, uint _geneIndex) internal returns (uint) {
+        uint multi = genesCount - _geneIndex;
+        uint part = _genes / (10 ** multi);
+        uint part2 = _genes % (10 ** (multi - 1));
+        uint res = part * (10 ** multi) + _gene + part2;
 
-        return _genes;
+        return res;
     }
 }

@@ -19,7 +19,7 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
     uint price;
   }
 
-  Kitty[] kitties;
+  Kitty[] public kitties;
 
   mapping (uint => Lot) public kittyIdToLot;
 
@@ -33,7 +33,7 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
    * Creates a lot associated by _kittyId
    */
   function createLot(uint _kittyId, uint _price) public {
-    addTokenTo(msg.sender, _kittyId);  // kittyId == tokenId
+    addTokenTo(address(this), _kittyId);  // kittyId == tokenId
 
     Lot memory _lot = Lot({
       owner: msg.sender,

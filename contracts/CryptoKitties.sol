@@ -27,6 +27,8 @@ contract CryptoKitties is ERC721Token, Ownable, GeneticAlgorithm {
   event _LotCreated(uint _kittyId, address _owner);
   event _LotRemoved(uint _kittyId, address _owner);
 
+  function CryptoKitties (string _name, string _symbol) ERC721Token(_name, _symbol) public {}
+
   /**
    * Creates a lot associated by _kittyId
    */
